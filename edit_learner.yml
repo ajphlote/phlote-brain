@@ -1,0 +1,41 @@
+name: Phlote Edit Learner
+
+on:
+  push:
+    paths:
+      - 'approved_posts/**'
+
+jobs:
+  learn:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install @anthropic-ai/sdk
+
+      - name: Get changed approved files
+        id: changed
+        run: |
+          FILES=$(git diff --name-only HEAD~1 HEAD -- 'approved_posts/' | tr '\n' ',')
+          echo "files=$FILES" >> $GITHUB_OUTPUT
+
+      - name: Run style comparison and learning
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node .github/scripts/edit_learner.js "${{ steps.changed.outputs.files }}"
+
+      - name: Commit learning outputs
+        run: |
+          git config user.name "Phlote Brain"
+          git config user.email "brain@phlote.co"
+          git add learning/comparisons/ learning/feedback/
+          git diff --staged --quiet || git commit -m "Auto: style learning from edit comparison"
+          git push
