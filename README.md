@@ -1,5 +1,15 @@
 # Phlote Brain
 
+Phlote is building the music infrastructure for the agentic internet.
+Music is mispriced — valued on listening, when the real opportunity is usage.
+We're acquiring catalog, building the metadata layer, and positioning it
+to be found and deployed by AI agents at scale.
+
+This is the founder's public operating system. How we think. What we're building. Why it matters.
+
+Not a content machine. A proof-of-work engine.
+
+Work → Documentation → Intelligence → Distribution
 Founder operating system for building Phlote in public.
 
 Not a content machine. A proof-of-work engine.
